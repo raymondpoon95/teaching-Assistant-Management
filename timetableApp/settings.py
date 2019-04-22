@@ -26,7 +26,7 @@ SECRET_KEY = 'b*=l=rzt@k#+=yrbx1wuytg0auv)ink5)u&d9myz4!%=+7!ju^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['tahubapp.herokuapp.com']
 
 
 # Application definition
