@@ -1,0 +1,29 @@
+{% extends 'timetable/base.html' %}
+{% block content %}
+  <h1>Edit your profile here:</h1>
+  <h2>Email: {{ user.username }}</h2>
+  <br>
+  <h2>Year of study: {{ year_of_study }}</h2>
+  <br>
+  <div class="form-group">
+    <h3>Qualifications:</h3>
+    <textarea class="form-control" id="qualifications" rows="3">{{ qualifications }}</textarea>
+  </div>
+  <h3>Module interests:</h3>
+  <ul class="list-group" id="list-group">
+  {% for modules in interested %}
+      <li id="{{ modules.course_ID }}" class="list-group-item list-group-item-primary">
+        <h6>{{ modules.course_ID }} - {{ modules.course_name }}
+          <button class="btn btn-danger pull-right delete" type="button">Remove</button>
+        </h6>
+      </li>
+  {% endfor%}
+</ul>
+  <br>
+  <button class="btn btn-success save">Save changes</button>
+  <a href="{% url 'profile' %}"><button class="btn btn-danger">Cancel</button></a>
+  <br>
+  <br>
+{% endblock %}
+
+

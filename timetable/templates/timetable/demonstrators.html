@@ -1,0 +1,49 @@
+{% extends 'timetable/base.html' %}
+
+{% block content %}
+  <h1>List of all demonstrators:</h1>
+  {% for demonstrators in student %}
+    <div class="card">
+      <div class="card-header">
+        <h4>{{ demonstrators.username }}</h4>
+        <h4>Year of study: {{ demonstrators.year_of_study }}</h4>
+      </div>
+      <div class="card-body">
+        <h5>Qualifications:</h5>
+        <p>{{ demonstrators.qualifications }}</p>
+        <h5>Module interests:</h5>
+        {% for module in demonstrators.course_id_interest.all %}
+        <span class="badge badge-pill badge-danger">{{ module }}</span>
+        {% endfor%}
+        <br>
+        <br>
+        <h5>Modules demonstrating:</h5>
+        {% for module in demonstrators.is_demonstrating.all %}
+        <span class="badge badge-pill badge-danger">{{ module }}</span>
+        {% endfor%}
+        <br>
+        <br>
+        <a href="{% url 'profile' %}?view={{ demonstrators.username }}" class="btn btn-block btn-info btn-sm">See further details</a>
+      </div>
+    </div>
+    <br>
+  {% endfor%}
+
+  <div class="pagination">
+    <span class="step-links">
+      {% if student.has_previous %}
+      <a class="btn btn-outline-info mb-4" href="?page=1">&laquo; First</a>
+      <a class="btn btn-outline-info mb-4" href="?page={{ student.previous_page_number }}">Previous</a>
+      {% endif %}
+
+      <span class="btn btn-outline-info mb-4">
+        Page {{ student.number }} of {{ student.paginator.num_pages }}
+      </span>
+
+      {% if student.has_next %}
+      <a class="btn btn-outline-info mb-4" href="?page={{ student.next_page_number }}">Next</a>
+      <a class="btn btn-outline-info mb-4" href="?page={{ student.paginator.num_pages }}">Last &raquo;</a>
+      {% endif %}
+    </span>
+  </div>
+{% endblock %}

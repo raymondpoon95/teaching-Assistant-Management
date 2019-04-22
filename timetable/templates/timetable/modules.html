@@ -1,0 +1,41 @@
+<html>
+  <body>
+  {% extends 'timetable/base.html' %}
+  {% block content %}
+
+  <h1>List of Modules:</h1>
+  <h2>Register which module you are interested to TA here:</h2>
+
+    {% for modules in course %}
+      <div class="card">
+        <div class="card-header">
+          <h4 id="module_header">{{ modules.course_ID }} - {{ modules.course_name }}</h4>
+        </div>
+        <div class="card-body">
+          <a onclick='registerInterest(&#39;{{ modules.course_ID }}&#39;, event)' class="btn btn-success btn-sm btn-block" style="color:white;">Register interest</a>
+        </div>
+      </div>
+      <br>
+    {% endfor%}
+
+    <div class="pagination">
+      <span class="step-links">
+        {% if course.has_previous %}
+        <a class="btn btn-outline-info mb-4" href="?page=1">&laquo; First</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ course.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="btn btn-outline-info mb-4">
+          Page {{ course.number }} of {{ course.paginator.num_pages }}
+        </span>
+
+        {% if course.has_next %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ course.next_page_number }}">Next</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ course.paginator.num_pages }}">Last &raquo;</a>
+        {% endif %}
+      </span>
+    </div>
+
+  {% endblock %}
+  </body>
+</html>

@@ -1,0 +1,38 @@
+{% extends 'timetable/base.html' %}
+{% block content %}
+  <h1>Welcome to your profile!</h1>
+  <h2>Please find your details below:</h2>
+  <br>
+  <h2>Email: {{ user.username }}</h2>
+  <br>
+  <h2>Year of study: {{ year_of_study }}</h2>
+  <br>
+    <div class="form-group">
+      <h3>Qualifications:</h3>
+      <textarea class="form-control" id="exampleFormControlTextarea4" rows="3" disabled>{{ qualifications }}</textarea>
+    </div>
+    <h3>Module interests:</h3>
+    {% for modules in interested %}
+      <ul class="list-group">
+        <li class="list-group-item list-group-item-primary"><h6>{{ modules.course_ID }} - {{ modules.course_name }}</h6>
+        </li>
+      </ul>
+    {% endfor%}
+    <br>
+    <h3>Modules demonstrating:</h3>
+    {% for modules in demonstrating %}
+      <ul class="list-group">
+        <li class="list-group-item list-group-item-success"><h6>{{ modules.course_ID }} - {{ modules.course_name }}<button class="btn btn-info pull-right">Clock in for lab session</button></h6>
+        </li>
+      </ul>
+    {% endfor%}
+    <br>
+    <a href="{% url 'editProfile' %}"><button class="btn btn-primary">Edit profile</button></a>
+    <br>
+    <br>
+    <div id="wrapper">
+        <button id="location-button" class="btn btn-primary">Get User Location</button>
+        <div id="output"></div>
+      </div>
+      <br>
+{% endblock %}

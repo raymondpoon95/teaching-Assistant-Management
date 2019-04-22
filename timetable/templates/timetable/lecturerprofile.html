@@ -1,0 +1,15 @@
+{% extends 'timetable/base.html' %}
+{% block content %}
+    <h1>Welcome to your profile!</h1>
+    <h2>Please find your details below:</h2>
+    <br>
+    <h2>Email: {{ user.username }}</h2>
+    <br>
+    <h3>My teaching modules:</h3>
+    {% for my_modules in modules %}
+    <ul class="list-group">
+        <li class="list-group-item list-group-item-primary"><h6>{{ my_modules.course_ID }} - {{ my_modules.course_name }}</h6>
+        </li>
+      </ul>
+    {% endfor %}
+{% endblock %}

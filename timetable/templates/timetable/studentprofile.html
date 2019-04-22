@@ -1,0 +1,46 @@
+{% extends 'timetable/base.html' %}
+{% block content %}
+  <h1>Please find student details below:</h1>
+  <br>
+  <h2>Email: {{ username }}</h2>
+  <br>
+  <h2>Year of study: {{ year_of_study }}</h2>
+  <br>
+    <div class="form-group">
+      <h3>Qualifications:</h3>
+      <textarea class="form-control" id="exampleFormControlTextarea4" rows="3" disabled>{{ qualifications }}</textarea>
+    </div>
+    <h3>Module interests:</h3>
+    {% if modulesInterested %}
+    {% for lecturerModule in modulesInterested %}
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-primary"><h6>{{ lecturerModule.course_ID }} - {{ lecturerModule.course_name }}
+            <button onclick='approveDemonstrator(&#39;{{ lecturerModule.course_ID }}&#39;, &#39;{{ username }}&#39;, event)' class="btn btn-success pull-right" type="button">Approve student as demonstrator</button>
+          </h6>
+          </li>
+        </ul>
+    {% endfor %}
+    {% else %}
+        <p><span style="font-weight:bold">None available. Your modules have yet to been chosen.</span></p>
+    {% endif %}
+    <br>
+    <h3>Modules demonstrating:</h3>
+    {% if modulesAccepted %}
+    {% for lecturerModule in modulesAccepted %}
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-success"><h6>{{ lecturerModule.course_ID }} - {{ lecturerModule.course_name }}
+            <button onclick='removeDemonstrator(&#39;{{ lecturerModule.course_ID }}&#39;, &#39;{{ username }}&#39;, event)'
+            class="btn btn-danger pull-right" type="button">Remove Student from module</button>
+          </h6>
+          </li>
+        </ul>
+    {% endfor %}
+    {% else %}
+        <p><span style="font-weight:bold">None available. You have not been selected for anything.</span></p>
+    {% endif %}
+    <br>
+    <a href="{% url 'view_demonstrators' %}" class="btn btn-primary">Go back</a>
+    <br>
+    <br>
+
+{% endblock %}

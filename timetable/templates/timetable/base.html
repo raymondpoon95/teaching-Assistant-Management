@@ -1,0 +1,193 @@
+<!-- 3rd party code is used for pop up function, referenced in report, also commented when used in scripts -->
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>QMUL Demonstrator System</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{% static 'timetable/main.css' %}">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+      <div class="container">
+        <a class="navbar-brand mr-4" href="{% url 'index' %}">TA-Hub</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarToggle">
+          <div class="navbar-nav mr-auto">
+            <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
+          </div>
+
+          <div class="navbar-nav">
+            {% if user.is_authenticated %}
+              <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+            {% else %}
+              <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+              <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+            {% endif %}
+          </div>
+
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main role="main" class="container">
+    <div class="row">
+      <div class="col-md-8">
+        {% block content %}
+        {% endblock %}
+      </div>
+      {% if user.is_authenticated %}
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">
+            <h3>Dashboard menu:</h3>
+          </div>
+          <ul class="list-group list-group-flush">
+            <a href="{% url 'view_demonstrators' %}" class="list-group-item list-group-item-light list-group-item-action">Demonstrators<i class="fa fa-graduation-cap"></i></a>
+            {% if user.is_staff %}
+            <a href="{% url 'lecturer_profile' %}" class="list-group-item list-group-item-light list-group-item-action">My Profile<i class="fa fa-user"></i></a>
+            {% else %}
+            <a href="{% url 'profile' %}" class="list-group-item list-group-item-light list-group-item-action">My Profile<i class="fa fa-user"></i></a>
+            {% endif %}
+            <a href="{% url 'modules' %}" class="list-group-item list-group-item-light list-group-item-action">Modules<i class="fa fa-list"></i></a>
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </main>
+
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script>
+    function registerInterest(courseID,event){
+          event.preventDefault();
+          $.ajax({
+              type:'POST',
+              url:'registerInterest/',
+              data:{
+                courseID: courseID
+              },
+              beforeSend: function (tkn) {
+                tkn.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+              },
+              success: function(data) {
+                Swal.fire({
+                type: 'success',
+                title: 'Nice Job!',
+                text: 'Module Registered!',
+              })
+              }
+           });
+        }
+
+      $(document).ready(function() {
+        $(".delete").on('click', function() {
+          $(this).closest(".list-group-item" ).remove();
+        });
+      });
+
+      $(document).on('click',".save" ,function() {
+        var lis = document.getElementById("list-group").getElementsByTagName("li");
+        var qual = document.getElementById("qualifications").value;
+        var interestedList = [];
+        interestedList.push("test");
+        for (var i = 0; i < lis.length;i++){
+          interestedList.push(lis[i].id);
+        }
+        $.ajax({
+          type:'POST',
+          url:'',
+          data:{
+            interestedList: interestedList,
+            qual: qual
+          },
+          beforeSend: function (tkn) {
+            tkn.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+          },
+          success: function(data) {
+              history.back();
+          }
+        });
+      });
+
+      function approveDemonstrator(courseID, username, event){
+          event.preventDefault();
+          $.ajax({
+              type:'POST',
+              url:'approveDemonstrator/',
+              data:{
+                courseID: courseID,
+                username: username,
+              },
+              beforeSend: function (tkn) {
+                tkn.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+              },
+              success: function(data) {
+                Swal.fire({
+                  type: 'success',
+                  title: 'Excellent!',
+                  text: 'Student has been successfully approved!',
+                })
+                setTimeout(function() {
+                  window.location.reload(); 
+                }, 2100);        
+              }
+           });
+        }
+
+        function removeDemonstrator(courseID, username, event){
+          event.preventDefault();
+          $.ajax({
+              type:'POST',
+              url:'removeDemonstrator/',
+              data:{
+                courseID: courseID,
+                username: username,
+              },
+              beforeSend: function (tkn) {
+                tkn.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+              },
+              success: function(data) {
+                // 3rd party code is used for pop up function, referenced in report
+                Swal.fire({ 
+                  type: 'success',
+                  title: 'Sorry to hear!',
+                  text: 'Student has been removed!',
+                })
+                setTimeout(function() {
+                  window.location.reload(); 
+                }, 2000); 
+              }
+           });
+        }
+
+      $('#location-button').click(function(){
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position){
+            console.log(position.coords.latitude);
+            console.log(position.coords.longitude);
+            $.get( "http://maps.googleapis.com/maps/api/geocode/json?latlng="+ position.coords.latitude + "," + position.coords.longitude +"&sensor=false", function(data) {
+              console.log(data);
+            })
+          });
+        }
+      });
+
+
+  </script>
+</body>
+
+</html>
