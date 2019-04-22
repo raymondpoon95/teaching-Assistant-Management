@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'timetableApp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.path.join(BASE_DIR, 'd8nh9h61j96v8n'),
+        'NAME': 'd8nh9h61j96v8n',
         'PORT': '5432'
     }
 }
