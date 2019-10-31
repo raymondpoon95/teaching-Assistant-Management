@@ -25,5 +25,5 @@ What things you need to run the project, can all be done using brew
 ## Built With
 
 * [Django](https://docs.djangoproject.com/en/2.2/) - The web framework used
-* [Python](https://www.python.org/doc/)
+* [Python](https://www.python.org/doc/) - Language used
 * [BootStrap](https://getbootstrap.com/docs/4.3/getting-started/introduction/)
