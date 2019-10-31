@@ -8,8 +8,8 @@ Teaching assistant management web application using Python and Django framework 
 
 What things you need to run the project, can all be done using brew
 ```
-* Django 2.1.7
-* Pillow 6.2.0
+- Django 2.1.7
+- Pillow 6.2.0
 ```
 
 
