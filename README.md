@@ -22,7 +22,7 @@ What things you need to run the project, can all be done using brew:
 ![img](https://i.imgur.com/jV3U39H.png)
 
 
-## Built With
+## Built With:
 
 * [Django](https://docs.djangoproject.com/en/2.2/) - The web framework used
 * [Python](https://www.python.org/doc/) - Language used
